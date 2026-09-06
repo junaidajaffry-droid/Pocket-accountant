@@ -2,6 +2,9 @@
   "version": 2,
   "buildCommand": "vite build",
   "outputDirectory": "dist",
+  "functions": {
+    "api/server.ts": { "maxDuration": 30 }
+  },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/api/server" },
     { "source": "/ads.txt", "destination": "/api/server" },
