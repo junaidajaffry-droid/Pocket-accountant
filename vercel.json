@@ -1,0 +1,13 @@
+{
+  "version": 2,
+  "buildCommand": "vite build",
+  "outputDirectory": "dist",
+  "functions": {
+    "server.ts": { "runtime": "@vercel/node" }
+  },
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/server.ts" },
+    { "source": "/ads.txt", "destination": "/server.ts" },
+    { "source": "/(.*)", "destination": "/index.html" }
+  ]
+}

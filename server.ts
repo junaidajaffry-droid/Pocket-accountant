@@ -717,25 +717,31 @@ app.get("/api/sync/:userId", async (req, res) => {
   }
 });
 
-// 6. Vite / Static serving
-async function startServer() {
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    app.use(vite.middlewares);
-  } else {
-    const distPath = path.join(process.cwd(), "dist");
-    app.use(express.static(distPath));
-    app.get("*", (_req, res) => {
-      res.sendFile(path.join(distPath, "index.html"));
+// 6. Vite / Static serving (only for traditional hosting — local dev, Cloud Run, Render, etc.)
+// On Vercel, this file runs as a serverless function per request (see vercel.json),
+// so we skip app.listen() and instead export the Express app itself.
+if (!process.env.VERCEL) {
+  async function startServer() {
+    if (process.env.NODE_ENV !== "production") {
+      const vite = await createViteServer({
+        server: { middlewareMode: true },
+        appType: "spa",
+      });
+      app.use(vite.middlewares);
+    } else {
+      const distPath = path.join(process.cwd(), "dist");
+      app.use(express.static(distPath));
+      app.get("*", (_req, res) => {
+        res.sendFile(path.join(distPath, "index.html"));
+      });
+    }
+
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Spoken Ledger server running on http://0.0.0.0:${PORT}`);
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Spoken Ledger server running on http://0.0.0.0:${PORT}`);
-  });
+  startServer();
 }
 
-startServer();
+export default app;
