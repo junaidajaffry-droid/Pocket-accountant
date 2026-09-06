@@ -1,0 +1,83 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --ink: #1B2A4A;
+    --ink-soft: #4A5670;
+    --paper: #E9E7DF;
+    --paper-raised: #F4F2EA;
+    --gold: #B8902E;
+    --sage: #5F7F62;
+    --brick: #A85238;
+    --steel: #3B6E8F;
+    --plum: #8A5FA0;
+    --rose: #C1546B;
+    --taupe: #6B6558;
+    --line: #C9C4B4;
+  }
+
+  body {
+    background-color: var(--paper);
+    color: var(--ink);
+    font-family: 'IBM Plex Sans', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    min-height: 100vh;
+  }
+}
+
+.mono {
+  font-family: 'IBM Plex Mono', monospace;
+}
+
+.display {
+  font-family: 'Fraunces', serif;
+}
+
+.sl-wave-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 1.5px solid var(--gold);
+  opacity: 0;
+}
+
+.sl-wave-ring.active {
+  animation: sl-pulse 1.8s ease-out infinite;
+}
+
+.sl-wave-ring.r2.active {
+  animation-delay: 0.5s;
+}
+
+.sl-wave-ring.r3.active {
+  animation-delay: 1s;
+}
+
+@keyframes sl-pulse {
+  0% {
+    width: 60px;
+    height: 60px;
+    opacity: 0.7;
+  }
+  100% {
+    width: 116px;
+    height: 116px;
+    opacity: 0;
+  }
+}
+
+/* Custom scrollbars */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--paper);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--line);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-soft);
+}
