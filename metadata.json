@@ -1,0 +1,11 @@
+{
+  "name": "Pocket Accountant",
+  "description": "Global AI voice expense & income ledger with multi-language speech recognition, home/business dashboards, receipt scanner, tax reporting, and cloud synchronization.",
+  "requestFramePermissions": [
+    "microphone",
+    "camera"
+  ],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
