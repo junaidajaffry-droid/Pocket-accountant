@@ -3,7 +3,7 @@
   "buildCommand": "vite build",
   "outputDirectory": "dist",
   "functions": {
-    "server.ts": { "runtime": "@vercel/node" }
+    "server.ts": {}
   },
   "rewrites": [
     { "source": "/api/(.*)", "destination": "/server.ts" },
