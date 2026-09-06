@@ -1,6 +1,5 @@
 import express from "express";
 import path from "path";
-import { createServer as createViteServer } from "vite";
 import { GoogleGenAI, Type } from "@google/genai";
 import dotenv from "dotenv";
 import { initializeApp, cert, getApps } from "firebase-admin/app";
@@ -10,9 +9,14 @@ dotenv.config();
 
 // Firestore initialization (persists across serverless restarts, unlike in-memory Map)
 if (!getApps().length) {
-  const serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_JSON
-    ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON)
-    : undefined;
+  let serviceAccount: any = undefined;
+  try {
+    serviceAccount = process.env.FIREBASE_SERVICE_ACCOUNT_JSON
+      ? JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON)
+      : undefined;
+  } catch (e: any) {
+    console.error("FIREBASE_SERVICE_ACCOUNT_JSON is not valid JSON:", e?.message);
+  }
   if (serviceAccount) {
     initializeApp({ credential: cert(serviceAccount) });
   } else {
@@ -723,6 +727,7 @@ app.get("/api/sync/:userId", async (req, res) => {
 if (!process.env.VERCEL) {
   async function startServer() {
     if (process.env.NODE_ENV !== "production") {
+      const { createServer: createViteServer } = await import("vite");
       const vite = await createViteServer({
         server: { middlewareMode: true },
         appType: "spa",
